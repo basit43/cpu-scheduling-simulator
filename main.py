@@ -4,6 +4,12 @@ from schedulers.fcfs import fcfs
 from schedulers.sjf import sjf
 from schedulers.round_robin import round_robin
 
+def print_gantt(gantt):
+    print("\nGantt Chart:")
+    for pid, start, end in gantt:
+        print(f"| {pid} ({start}-{end}) ", end="")
+    print("|")
+
 
 def fcfsProcess():
     return [
@@ -29,8 +35,13 @@ def round_robin_process():
 
 if __name__ == "__main__":
     processes = fcfsProcess()
-    print("FCFS:", fcfs(processes))
+    gantt = fcfs(processes)
+    print_gantt(gantt)
+
     processes = sjfProcess()
-    print("SJF:", sjf(processes))
+    gantt = sjf(processes)
+    print_gantt(gantt)
+
     processes = round_robin_process()
-    print("Round Robin:", round_robin(processes, quantum=2))
+    gantt = round_robin(processes, quantum=2)
+    print_gantt(gantt)

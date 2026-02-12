@@ -3,7 +3,7 @@ from collections import deque
 def round_robin(processes, quantum):
     time = 0
     queue = deque()
-    schedule = []
+    gantt = []
 
     processes = sorted(processes, key=lambda x: x.arrival)
     queue.append(processes[0])
@@ -11,11 +11,14 @@ def round_robin(processes, quantum):
 
     while queue:
         p = queue.popleft()
-        schedule.append(p.pid)
 
+        start = time
         exec_time = min(quantum, p.remaining)
         p.remaining -= exec_time
         time += exec_time
+        end = time
+
+        gantt.append((p.pid, start, end))
 
         while i < len(processes) and processes[i].arrival <= time:
             queue.append(processes[i])
@@ -27,4 +30,4 @@ def round_robin(processes, quantum):
             p.turnaround = time - p.arrival
             p.waiting = p.turnaround - p.burst
 
-    return schedule
+    return gantt

@@ -1,7 +1,4 @@
-print("SCRIPT STARTED")
-#showing python editor version
-import sys
-print("Python editor version:", sys.version_info)
+
 class Process:
     def __init__(self, pid, arrival, burst):
         self.pid = pid
@@ -13,17 +10,22 @@ class Process:
     
 def fcfs(processes):
     time = 0
-    schedule = []
+    gantt = []
+
     for p in sorted(processes, key=lambda x: x.arrival):
         if time < p.arrival:
             time = p.arrival
 
-        p.waiting = time - p.arrival
+        start = time
         time += p.burst
-        p.turnaround = p.waiting + p.burst
-        schedule.append(p.pid)
+        end = time
 
-    return schedule
+        p.waiting = start - p.arrival
+        p.turnaround = end - p.arrival
+
+        gantt.append((p.pid, start, end))
+
+    return gantt
 
 if __name__ == "__main__":
     processes = [
