@@ -1,8 +1,31 @@
 from process_model import Process
 from schedulers.fcfs import fcfs
-# Later:
 from schedulers.sjf import sjf
 from schedulers.round_robin import round_robin
+import random
+import copy
+import matplotlib.pyplot as plt
+
+
+def generate_random_processes(n, max_arrival=50, max_burst=10):
+    processes = []
+    for i in range(n):
+        arrival = random.randint(0, max_arrival)
+        burst = random.randint(1, max_burst)
+        processes.append(Process(f"P{i}", arrival, burst))
+    return processes
+
+
+def plot_results(results):
+    algorithms = list(results.keys())
+    values = list(results.values())
+
+    plt.bar(algorithms, values)
+    plt.xlabel("Scheduling Algorithm")
+    plt.ylabel("Average Waiting Time")
+    plt.title("Average Waiting Time Comparison")
+    plt.show()
+
 
 def print_gantt(gantt, algorithm_name):
     print("\n" + "=" * 40)
@@ -15,6 +38,34 @@ def print_gantt(gantt, algorithm_name):
 
     print("|")
     print()
+
+
+def run_experiment(n):
+    print("\n" + "#" * 60)
+    print(f"Running experiment with {n} random processes")
+    print("#" * 60)
+
+    base_workload = generate_random_processes(n)
+
+    results = {}
+
+    # FCFS
+    processes = copy.deepcopy(base_workload)
+    fcfs(processes)
+    results["FCFS"] = sum(p.waiting for p in processes) / n
+
+    # SJF
+    processes = copy.deepcopy(base_workload)
+    sjf(processes)
+    results["SJF"] = sum(p.waiting for p in processes) / n
+
+    # RR
+    processes = copy.deepcopy(base_workload)
+    round_robin(processes, quantum=3)
+    results["RR"] = sum(p.waiting for p in processes) / n
+
+    return results
+
 
 def print_metrics(processes, gantt):
     n = len(processes)
@@ -33,6 +84,7 @@ def print_metrics(processes, gantt):
     print(f"Average Turnaround Time: {avg_turnaround:.2f}")
     print(f"Context Switches: {context_switches}")
     print()
+
 
 def fcfsProcess():
     return [
@@ -58,17 +110,29 @@ def round_robin_process():
 
 if __name__ == "__main__":
 
-    processes = fcfsProcess()
-    gantt = fcfs(processes)
-    print_gantt(gantt, "FCFS")
-    print_metrics(processes, gantt)
+    # Run experiment with 100 processes
+    results = run_experiment(100)
 
-    processes = sjfProcess()
-    gantt = sjf(processes)
-    print_gantt(gantt, "SJF")
-    print_metrics(processes, gantt)
+    print("\nAverage Waiting Times:")
+    for algo, value in results.items():
+        print(f"{algo}: {value:.2f}")
 
-    processes = round_robin_process()
-    gantt = round_robin(processes, quantum=2)
-    print_gantt(gantt, "Round Robin (q=2)")
-    print_metrics(processes, gantt)
+    plot_results(results)
+
+
+# if __name__ == "__main__":
+
+#     processes = fcfsProcess()
+#     gantt = fcfs(processes)
+#     print_gantt(gantt, "FCFS")
+#     print_metrics(processes, gantt)
+
+#     processes = sjfProcess()
+#     gantt = sjf(processes)
+#     print_gantt(gantt, "SJF")
+#     print_metrics(processes, gantt)
+
+#     processes = round_robin_process()
+#     gantt = round_robin(processes, quantum=2)
+#     print_gantt(gantt, "Round Robin (q=2)")
+#     print_metrics(processes, gantt)
