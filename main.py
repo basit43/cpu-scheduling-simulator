@@ -2,6 +2,7 @@ from process_model import Process
 from schedulers.fcfs import fcfs
 from schedulers.sjf import sjf
 from schedulers.round_robin import round_robin
+from schedulers.srtf import srtf
 import random
 import copy
 import matplotlib.pyplot as plt
@@ -54,17 +55,35 @@ def run_experiment(n):
     fcfs(processes)
     results["FCFS"] = sum(p.waiting for p in processes) / n
 
-    # SJF
+    # SJF (Non-preemptive)
     processes = copy.deepcopy(base_workload)
     sjf(processes)
     results["SJF"] = sum(p.waiting for p in processes) / n
 
-    # RR
+    # SRTF (Preemptive SJF)
+    processes = copy.deepcopy(base_workload)
+    srtf(processes)
+    results["SRTF"] = sum(p.waiting for p in processes) / n
+
+    # Round Robin
     processes = copy.deepcopy(base_workload)
     round_robin(processes, quantum=3)
-    results["RR"] = sum(p.waiting for p in processes) / n
+    results["RR (q=3)"] = sum(p.waiting for p in processes) / n
 
     return results
+
+def run_multiple_trials(n, trials=5):
+    aggregate = {"FCFS": 0, "SJF": 0, "SRTF": 0, "RR (q=3)": 0}
+
+    for _ in range(trials):
+        results = run_experiment(n)
+        for key in aggregate:
+            aggregate[key] += results[key]
+
+    for key in aggregate:
+        aggregate[key] /= trials
+
+    return aggregate
 
 
 def print_metrics(processes, gantt):
@@ -111,7 +130,11 @@ def round_robin_process():
 if __name__ == "__main__":
 
     # Run experiment with 100 processes
-    results = run_experiment(100)
+    # results = run_experiment(100)
+
+    # Run multiple Trials
+    results = run_multiple_trials(100, trials=5)
+
 
     print("\nAverage Waiting Times:")
     for algo, value in results.items():
