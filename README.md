@@ -1,8 +1,14 @@
 # CPU Scheduling Simulator
 
-A modular CPU Scheduling Simulator written in Python to explore and understand core Operating System scheduling algorithms through time-based simulation and performance evaluation.
+A modular CPU Scheduling Simulator written in Python to explore and understand core Operating System scheduling algorithms through time-based simulation, metric analysis, and experimental performance evaluation.
 
-This project models how an operating system decides which process runs on the CPU and in what order. It provides execution order, detailed metrics, and **Gantt chart timeline visualization** to analyze scheduling behavior.
+This project models how an operating system decides which process runs on the CPU and in what order. It provides:
+
+- Time-based Gantt chart simulation
+- Detailed performance metrics
+- Random workload generation
+- Experimental comparison of algorithms
+- Visualization using matplotlib
 
 ---
 
@@ -18,9 +24,9 @@ Each algorithm is implemented independently in a modular structure for clarity, 
 
 ---
 
-## 📊 Gantt Chart Visualization
+## 📊 Time-Based Gantt Chart Simulation
 
-The simulator generates a **Gantt Chart timeline** for each scheduling algorithm.
+The simulator generates a Gantt Chart timeline for each scheduling algorithm.
 
 The Gantt chart visually represents:
 
@@ -29,67 +35,83 @@ The Gantt chart visually represents:
 - Preemption (for Round Robin)  
 - Context switching behavior  
 
-Example (conceptual output):
+Example output:
 
+# CPU Scheduling Simulator
 
+A modular CPU Scheduling Simulator written in Python to explore and understand core Operating System scheduling algorithms through time-based simulation, metric analysis, and experimental performance evaluation.
 
-This helps in reasoning about:
+This project models how an operating system decides which process runs on the CPU and in what order. It provides:
 
-- CPU utilization  
-- Waiting time accumulation  
-- Fairness  
-- Scheduling trade-offs  
-- Time-based system behavior  
-
----
-
-## 📈 Performance Metrics Tracked
-
-Each process tracks:
-
-- Arrival Time  
-- Burst Time  
-- Remaining Time  
-- Waiting Time  
-- Turnaround Time  
-
-Where:
-
-
-These metrics are fundamental for evaluating scheduling efficiency and comparing algorithms.
+- Time-based Gantt chart simulation
+- Detailed performance metrics
+- Random workload generation
+- Experimental comparison of algorithms
+- Visualization using matplotlib
 
 ---
 
-## 🧠 Scheduling Concepts Covered
+## 🚀 Implemented Algorithms
 
-### 1️⃣ First Come First Serve (FCFS)
-- Executes processes in order of arrival  
-- Simple and deterministic  
-- Can suffer from the **convoy effect**  
+The simulator currently supports:
 
-### 2️⃣ Shortest Job First (SJF)
-- Selects process with smallest burst time  
-- Minimizes average waiting time  
-- May cause starvation for long processes  
+- **First Come First Serve (FCFS)** – Non-preemptive  
+- **Shortest Job First (SJF)** – Non-preemptive  
+- **Round Robin (RR)** – Preemptive (time-sliced)
 
-### 3️⃣ Round Robin (RR)
-- Uses fixed time quantum  
-- Ensures fairness and responsiveness  
-- Introduces context switching overhead  
+Each algorithm is implemented independently in a modular structure for clarity, scalability, and future research-level extensions.
 
 ---
 
-## 📂 Project Structure
+## 📊 Time-Based Gantt Chart Simulation
 
-```text
-CPU-SCHEDULING-SIMULATOR/
-│
-├── main.py
-├── process_model.py
-├── schedulers/
-│   ├── __init__.py
-│   ├── fcfs.py
-│   ├── sjf.py
-│   └── round_robin.py
-│
-└── README.md
+The simulator generates a Gantt Chart timeline for each scheduling algorithm.
+
+The Gantt chart visually represents:
+
+- Execution order  
+- Start and end times  
+- Preemption (for Round Robin)  
+- Context switching behavior  
+
+Example output:
+
+# CPU Scheduling Simulator
+
+A modular CPU Scheduling Simulator written in Python to explore and understand core Operating System scheduling algorithms through time-based simulation, metric analysis, and experimental performance evaluation.
+
+This project models how an operating system decides which process runs on the CPU and in what order. It provides:
+
+- Time-based Gantt chart simulation
+- Detailed performance metrics
+- Random workload generation
+- Experimental comparison of algorithms
+- Visualization using matplotlib
+
+---
+
+## 🚀 Implemented Algorithms
+
+The simulator currently supports:
+
+- **First Come First Serve (FCFS)** – Non-preemptive  
+- **Shortest Job First (SJF)** – Non-preemptive  
+- **Round Robin (RR)** – Preemptive (time-sliced)
+
+Each algorithm is implemented independently in a modular structure for clarity, scalability, and future research-level extensions.
+
+---
+
+## 📊 Time-Based Gantt Chart Simulation
+
+The simulator generates a Gantt Chart timeline for each scheduling algorithm.
+
+The Gantt chart visually represents:
+
+- Execution order  
+- Start and end times  
+- Preemption (for Round Robin)  
+- Context switching behavior  
+
+Example output:
+
