@@ -87,7 +87,6 @@ Metrics evaluated:
 - Context Switch Count
 
 ---
-
 ## Project Structure
 
 cpu-scheduling-simulator
@@ -101,8 +100,6 @@ cpu-scheduling-simulator
 │ └── round_robin.py
 │
 └── README.md
-
-
 ---
 
 ## Run the Simulator
