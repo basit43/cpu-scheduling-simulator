@@ -1,149 +1,144 @@
 # CPU Scheduling Simulator
 
-A modular CPU Scheduling Simulator written in Python for experimental evaluation of classical Operating System scheduling algorithms.
+Experimental CPU Scheduling Simulator for evaluating classical operating system scheduling algorithms under different workload models.
 
-This project models how an operating system selects processes for CPU execution and analyzes algorithm behavior under different workload conditions.
+This project implements multiple scheduling algorithms and evaluates their behavior using **controlled experiments, workload simulations, and scalability analysis**.
 
-It supports:
-
-- Time-based Gantt chart simulation
-- Preemptive and non-preemptive scheduling
-- Detailed performance metrics
-- Random workload generation (uniform & heavy-tailed)
-- Multi-trial statistical averaging
-- Scalability experiments
-- Visualization using matplotlib
-
-The simulator is designed as a foundation for research-oriented systems analysis.
+The goal is to study how scheduling policies behave as system load increases and how workload distributions influence performance.
 
 ---
 
-## 🚀 Implemented Scheduling Algorithms
+## Implemented Algorithms
 
-The simulator currently supports:
+The simulator currently evaluates:
 
-- **First Come First Serve (FCFS)** – Non-preemptive  
-- **Shortest Job First (SJF)** – Non-preemptive  
-- **Shortest Remaining Time First (SRTF)** – Preemptive  
-- **Round Robin (RR)** – Preemptive (time-sliced)
+- **FCFS** — First Come First Serve (Non-preemptive)
+- **SJF** — Shortest Job First (Non-preemptive)
+- **SRTF** — Shortest Remaining Time First (Preemptive)
+- **Round Robin** — Time-sliced scheduling
 
-Each algorithm is implemented independently within a modular architecture for clarity and extensibility.
-
----
-
-## 📊 Gantt Chart Simulation
-
-Each scheduler produces a detailed Gantt chart timeline that shows:
-
-- Execution order
-- Start and end times
-- Preemption events (SRTF and RR)
-- Context switching behavior
-
-Example:
-
-========================================
-Algorithm: SRTF
-Gantt Chart:
-| P1 (0-1) | P2 (1-4) | P1 (4-8) | ...
-
-
-This enables precise time-based reasoning about scheduling behavior.
+Each algorithm is implemented in a modular architecture and evaluated under identical workloads.
 
 ---
 
-## 📈 Performance Metrics
+## Example Experiment (100 Processes)
 
-For every experiment, the simulator computes:
+The simulator can generate random workloads and compare scheduling algorithms using **average waiting time**.
+
+![Average Waiting Time Comparison](comparison.png)
+
+Observed behavior:
+
+- **SJF / SRTF minimize waiting time**
+- **FCFS suffers from convoy effect**
+- **Round Robin introduces additional overhead due to time slicing**
+
+---
+
+## Scalability Experiment
+
+To evaluate algorithm scalability, the simulator runs experiments for increasing workload sizes:
+
+N = [50, 100, 200, 400]
+
+
+The following graph shows how **average waiting time grows as the system load increases**.
+
+![Scalability Analysis](scalability_uniform.png)
+
+Observations:
+
+- Waiting time grows approximately **linearly with workload size**
+- **SRTF consistently performs best**
+- **Round Robin scales worst due to frequent preemption**
+
+---
+
+## Heavy-Tailed Workload Analysis
+
+Real systems often exhibit **heavy-tailed workloads** where many jobs are small but a few are very large.
+
+To simulate this behavior, burst times are generated using an **exponential distribution**.
+
+![Heavy Tail Scalability](scalability_heavytail.png)
+
+Key insights:
+
+- **FCFS degrades significantly due to convoy effect**
+- **SRTF benefits from prioritizing short jobs**
+- **Round Robin becomes increasingly inefficient at scale**
+
+---
+
+## Experimental Methodology
+
+Each experiment follows a controlled pipeline:
+
+1. Generate synthetic workload of `N` processes
+2. Use the **same workload for all algorithms**
+3. Run **multiple trials** to reduce randomness
+4. Compute average metrics
+5. Visualize results using matplotlib
+
+Metrics evaluated:
 
 - Average Waiting Time
 - Average Turnaround Time
 - Context Switch Count
 
-Each process tracks:
-
-- Arrival Time
-- Burst Time
-- Remaining Time
-- Waiting Time
-- Turnaround Time
-
-These metrics enable quantitative comparison between scheduling strategies.
-
 ---
 
-## 🔬 Experimental Evaluation Framework
+## Project Structure
 
-The simulator supports controlled experiments:
-
-- Generate N processes
-- Use identical workloads across all algorithms
-- Run multiple trials
-- Compute averaged results
-- Visualize comparisons
-
-Two workload models are supported:
-
-### 1️⃣ Uniform Workload
-Burst times generated using uniform distribution.
-
-### 2️⃣ Heavy-Tailed Workload
-Burst times generated using exponential distribution to simulate realistic systems behavior (many short jobs, few long jobs).
-
----
-
-## 📊 Scalability Analysis
-
-The simulator evaluates scalability across increasing workload sizes:
-
-N = [50, 100, 200, 400]
-
-
-It produces scalability curves showing:
-
-- Growth of average waiting time vs number of processes
-- Performance divergence between algorithms
-- Sensitivity to workload distribution
-
-### Observed Experimental Trends
-
-Under uniform workloads:
-
-- SRTF ≈ SJF < FCFS < RR
-- All algorithms scale approximately linearly
-
-Under heavy-tailed workloads:
-
-- SRTF shows clearer advantage
-- FCFS suffers severe convoy effect
-- RR performance degrades significantly under scale
-- Performance gaps widen as N increases
-
-These results align with theoretical scheduling expectations.
-
----
-
-## 📂 Project Structure
-
-```text
-CPU-SCHEDULING-SIMULATOR/
+cpu-scheduling-simulator
 │
 ├── main.py
 ├── process_model.py
-├── schedulers/
-│   ├── __init__.py
-│   ├── fcfs.py
-│   ├── sjf.py
-│   ├── srtf.py
-│   └── round_robin.py
+├── schedulers
+│ ├── fcfs.py
+│ ├── sjf.py
+│ ├── srtf.py
+│ └── round_robin.py
 │
-├── requirements.txt
 └── README.md
 
-Create virtual environment:
+
+---
+
+## Run the Simulator
+
+Create a virtual environment:
 
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-python main.py
+
+Run experiments:
+
+
+This will generate scheduling experiments and produce the scalability graphs.
+
+---
+
+## Research Motivation
+
+This project explores fundamental questions in operating systems scheduling:
+
+- How do scheduling algorithms behave under increasing load?
+- How do **preemptive vs non-preemptive policies** compare?
+- How do **heavy-tailed workloads affect scheduling efficiency**?
+
+The simulator serves as a small experimental platform for studying scheduling behavior and system performance.
+
+---
+
+## Future Work
+
+Possible extensions include:
+
+- Context switch overhead modeling
+- Starvation and fairness metrics
+- Multi-Level Feedback Queue (MLFQ)
+- Reinforcement-learning based scheduling policies
+- Real workload trace simulation
