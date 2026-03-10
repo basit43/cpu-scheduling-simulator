@@ -86,22 +86,6 @@ Metrics evaluated:
 - Average Turnaround Time
 - Context Switch Count
 
----
-## Project Structure
-
-cpu-scheduling-simulator
-│
-├── main.py
-├── process_model.py
-├── schedulers
-│ ├── fcfs.py
-│ ├── sjf.py
-│ ├── srtf.py
-│ └── round_robin.py
-│
-└── README.md
----
-
 ## Run the Simulator
 
 Create a virtual environment:
